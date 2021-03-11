@@ -13,5 +13,9 @@
   <ItemGroup>
     <Folder Include="Model\" />
   </ItemGroup>
+   
+  <ItemGroup>
+    <ProjectReference Include="..\TennisScoreBoard.ScoreManager\TennisScoreBoard.ScoreManager.csproj" />
+  </ItemGroup>
 
 </Project>
