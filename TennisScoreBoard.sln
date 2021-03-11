@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31005.135
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{1C1D66D1-65A2-4031-B1DA-7B473B1F5111}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Emulator", "Emulator", "{3172EE7B-B068-4264-AE39-BF600C4A2FF3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "App", "App", "{DEB469CE-5705-4B03-8DE3-8BD427DFE1BC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TennisScoreBoard.App", "Sources\TennisScoreBoard.App\TennisScoreBoard.App.csproj", "{E623D4C4-3C10-4E60-8C24-A60BBC12AAED}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TennisScoreBoard.ScoreManager", "Sources\TennisScoreBoard.ScoreManager\TennisScoreBoard.ScoreManager.csproj", "{2693720B-C200-4DD4-B9E2-247466DE505C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TennisScoreBoard.Emulator", "Sources\TennisScoreBoard.Emulator\TennisScoreBoard.Emulator.csproj", "{947A5667-E5E2-4128-B9C0-0E015D1B320F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TennisScoreBoard.Test", "Sources\TennisScoreBoard.Test\TennisScoreBoard.Test.csproj", "{654480B1-3D3E-4C06-9C3C-D244CB8F0A31}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E623D4C4-3C10-4E60-8C24-A60BBC12AAED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E623D4C4-3C10-4E60-8C24-A60BBC12AAED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E623D4C4-3C10-4E60-8C24-A60BBC12AAED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E623D4C4-3C10-4E60-8C24-A60BBC12AAED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2693720B-C200-4DD4-B9E2-247466DE505C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2693720B-C200-4DD4-B9E2-247466DE505C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2693720B-C200-4DD4-B9E2-247466DE505C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2693720B-C200-4DD4-B9E2-247466DE505C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{947A5667-E5E2-4128-B9C0-0E015D1B320F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{947A5667-E5E2-4128-B9C0-0E015D1B320F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{947A5667-E5E2-4128-B9C0-0E015D1B320F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{947A5667-E5E2-4128-B9C0-0E015D1B320F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{654480B1-3D3E-4C06-9C3C-D244CB8F0A31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{654480B1-3D3E-4C06-9C3C-D244CB8F0A31}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{654480B1-3D3E-4C06-9C3C-D244CB8F0A31}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{654480B1-3D3E-4C06-9C3C-D244CB8F0A31}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E623D4C4-3C10-4E60-8C24-A60BBC12AAED} = {DEB469CE-5705-4B03-8DE3-8BD427DFE1BC}
+		{2693720B-C200-4DD4-B9E2-247466DE505C} = {DEB469CE-5705-4B03-8DE3-8BD427DFE1BC}
+		{947A5667-E5E2-4128-B9C0-0E015D1B320F} = {3172EE7B-B068-4264-AE39-BF600C4A2FF3}
+		{654480B1-3D3E-4C06-9C3C-D244CB8F0A31} = {1C1D66D1-65A2-4031-B1DA-7B473B1F5111}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3C5BADF6-A4F5-43F7-8EF5-43AB48B13A31}
+	EndGlobalSection
+EndGlobal
