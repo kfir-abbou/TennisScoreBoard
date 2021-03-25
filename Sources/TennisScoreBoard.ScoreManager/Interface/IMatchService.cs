@@ -1,10 +1,15 @@
-﻿using TennisScoreBoard.ScoreManager.Common;
+﻿using System.Collections.Generic;
+using TennisScoreBoard.EF;
+using TennisScoreBoard.ScoreManager.Common;
 
 namespace TennisScoreBoard.ScoreManager.Interface
 {
     public interface IMatchService
     {
-        bool StartMatch(int player1Id, int player2Id);
-        bool UpdateGameResult(int gameId, PLAYER player);
+        bool AddPlayer(string first, string last);
+        IList<TennisPlayer> GetPlayers();
+        TennisMatch StartMatch(TennisPlayer player1, TennisPlayer player2);
+        bool UpdateGameResult(TennisMatch match, PLAYER player);
+        IScoreBoardData GetScoreBoardData(TennisMatch match);
     }
 }

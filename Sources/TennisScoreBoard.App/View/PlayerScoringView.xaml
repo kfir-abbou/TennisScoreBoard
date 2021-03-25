@@ -1,0 +1,59 @@
+﻿<UserControl x:Class="TennisScoreBoard.App.View.PlayerScoringView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TennisScoreBoard.App.View"
+             xmlns:common="clr-namespace:TennisScoreBoard.ScoreManager.Common;assembly=TennisScoreBoard.ScoreManager"
+             mc:Ignorable="d" 
+             d:DesignHeight="200" d:DesignWidth="400"
+             DataContext="{Binding PlayerScore, Source={StaticResource Locator}}"
+             >
+  <GroupBox>
+      <Grid>
+          <Grid.RowDefinitions>
+              <RowDefinition Height="*" />
+              <RowDefinition Height="5*" />
+          </Grid.RowDefinitions>
+
+          <TextBlock Grid.Row="0" 
+                     Style="{StaticResource ucTitle}"
+                     Text="Match Scoring"
+                     HorizontalAlignment="Center"/>
+
+          <Grid Grid.Row="1">
+              <Grid.RowDefinitions>
+                  <RowDefinition Height="*"/>
+                  <RowDefinition Height="*"/>
+              </Grid.RowDefinitions>
+              <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="5*" />
+              </Grid.ColumnDefinitions>
+
+              <TextBlock
+                  Grid.Row="0" 
+                  Grid.Column="1" 
+                  VerticalAlignment="Center" 
+                  Text="First Player Scored"/>
+              <TextBlock
+                  Grid.Row="1"
+                  Grid.Column="1"
+                  VerticalAlignment="Center" 
+                  Text="Second Player Scored"/>
+              <Button 
+                  x:Name="FirstScoreBtn"
+                  Grid.Row="0"
+                  Grid.Column="0"
+                  Command="{Binding PlayerScoredCommand}" 
+                  CommandParameter="{x:Static common:PLAYER.FIRST}"/>
+              <Button
+                  x:Name="SecondScoreBtn" 
+                  Grid.Row="1"
+                  Grid.Column="0"
+                  Command="{Binding PlayerScoredCommand}"
+                  CommandParameter="{x:Static common:PLAYER.SECOND}"/>
+          </Grid>
+      </Grid>
+    </GroupBox>
+</UserControl>

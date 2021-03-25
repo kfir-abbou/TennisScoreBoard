@@ -8,16 +8,17 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace TennisScoreBoard.App.View
 {
     /// <summary>
-    /// Interaction logic for MainBoard.xaml
+    /// Interaction logic for AddPlayerView.xaml
     /// </summary>
-    public partial class MainBoard : Window
+    public partial class AddPlayerView : UserControl
     {
-        public MainBoard()
+        public AddPlayerView()
         {
             InitializeComponent();
         }

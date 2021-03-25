@@ -6,16 +6,29 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="MvvmLightLibsStd10" Version="5.4.1.1" />
-  </ItemGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath>..\..\Deploy</OutputPath>
+  </PropertyGroup>
    
   <ItemGroup>
     <Folder Include="Model\" />
   </ItemGroup>
    
   <ItemGroup>
+    <PackageReference Include="log4net" Version="2.0.12" />
+    <PackageReference Include="MahApps.Metro" Version="2.4.4" />
+    <PackageReference Include="MvvmLightStd10" Version="5.4.1.2" />
+    <PackageReference Include="System.Reactive" Version="5.0.0" />
+  </ItemGroup>
+   
+  <ItemGroup>
     <ProjectReference Include="..\TennisScoreBoard.ScoreManager\TennisScoreBoard.ScoreManager.csproj" />
+  </ItemGroup>
+   
+  <ItemGroup>
+    <None Update="log4net.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

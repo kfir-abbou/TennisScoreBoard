@@ -5,7 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Implementation\" />
+    <PackageReference Include="log4net" Version="2.0.12" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TennisScoreBoard.DAL\TennisScoreBoard.EF.csproj" />
   </ItemGroup>
 
 </Project>
