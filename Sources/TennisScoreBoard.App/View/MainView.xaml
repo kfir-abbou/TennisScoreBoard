@@ -19,13 +19,19 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <local:AddPlayerView Grid.Row="0" Grid.Column="0" />
+        <local:AddPlayerView 
+            Grid.Row="0" 
+            Grid.Column="0" />
 
-        <local:StartMatchView Grid.Row="0" Grid.Column="1" />
+        <local:StartMatchView 
+            Grid.Row="0"
+            Grid.Column="1"
+            IsEnabled="{Binding IsViewEnabled}"/>
 
         <local:PlayerScoringView 
             Grid.Row="1" 
-            Grid.Column="0"/>
+            Grid.Column="0"
+            IsEnabled="{Binding IsViewEnabled}"/>
 
         <local:ScoreBoardView Grid.Row="1" Grid.Column="1" />
                               <!-- Visibility="{Binding ShowScoreBoard, Converter={converters:BoolToVisibilityConverter}}" /> -->

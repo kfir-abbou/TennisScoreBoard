@@ -1,11 +1,9 @@
-﻿using System;
-using System.Reactive;
-using System.Reactive.Subjects;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Windows.Input;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using log4net;
+using TennisScoreBoard.App.Common;
 using TennisScoreBoard.ScoreManager.Interface;
 
 namespace TennisScoreBoard.App.ViewModel
@@ -16,7 +14,10 @@ namespace TennisScoreBoard.App.ViewModel
         private readonly IMatchService m_matchService;
         private string m_playerFirstName;
         private string m_playerLastName;
-        private readonly ISubject<Unit> m_newPlayerAdded = new Subject<Unit>();
+        private readonly ITennisMatchState m_matchState;
+
+
+        public ICommand AddPlayerCommand => new RelayCommand(executeAddPlayerCommand, true);
 
         public string PlayerFirstName
         {
@@ -38,14 +39,12 @@ namespace TennisScoreBoard.App.ViewModel
             }
         }
 
-        public IObservable<Unit> NewPlayerAdded => m_newPlayerAdded;
-        public AddPlayerViewModel(IMatchService matchService)
+        public AddPlayerViewModel(IMatchService matchService, ITennisMatchState matchState)
         {
             s_log.DebugFormat($"[AddPlayerViewModel]");
             m_matchService = matchService;
+            m_matchState = matchState;
         }
-
-        public ICommand AddPlayerCommand => new RelayCommand(executeAddPlayerCommand, true);
 
         private void executeAddPlayerCommand()
         {
@@ -58,21 +57,17 @@ namespace TennisScoreBoard.App.ViewModel
             if (succeeded)
             {
                 clearView();
-                m_newPlayerAdded.OnNext(Unit.Default);
+                m_matchState.NotifyOnPlayerAdded();
             }
-            s_log.DebugFormat($"[executeAddPlayerCommand] Add player succeed: {succeeded}");
+            s_log.DebugFormat($"[executeAddPlayerCommand] Add player succeeded: {succeeded}");
         }
 
         private void clearView()
         {
             PlayerFirstName = string.Empty;
             PlayerLastName = string.Empty;
-            notifyData();
         }
 
-        private void notifyData()
-        {
-            
-        }
+       
     }
 }

@@ -1,6 +1,10 @@
-﻿using GalaSoft.MvvmLight;
+﻿using System.Reflection;
+using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
+using log4net;
 using Microsoft.EntityFrameworkCore;
+using TennisScoreBoard.App.Common;
+using TennisScoreBoard.App.Config;
 using TennisScoreBoard.EF;
 using TennisScoreBoard.ScoreManager.Implementation;
 using TennisScoreBoard.ScoreManager.Interface;
@@ -13,13 +17,24 @@ namespace TennisScoreBoard.App.ViewModel
     /// </summary>
     public class ViewModelLocator
     {
+        private static readonly ILog s_log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         /// <summary>
         /// Initializes a new instance of the ViewModelLocator class.
         /// </summary>
         public ViewModelLocator()
         {
+            s_log.DebugFormat("[NotifyOnMatchStarted]");
+
+            SimpleIoc.Default.Register<ConfigSerializer>();
+            var configSerializer = SimpleIoc.Default.GetInstance<ConfigSerializer>();
+            var config = configSerializer.LoadScoreboardConfig(@"Config\ScoreboardConfig.xml");
+
             var optionsBuilder = new DbContextOptionsBuilder<ScoreBoardContext>();
-            optionsBuilder.UseSqlServer(@"Server=L-P-KFIRABB-WWN\SQLEXPRESS;Database=TennisScoreDb;Trusted_Connection=True;");
+            optionsBuilder.UseSqlServer($@"Server={config.ConnectionString};Database=TennisScoreDb;Trusted_Connection=True;");
+
+            SimpleIoc.Default.Register<ITennisMatchState, TennisMatchState>();
+            var matchState = SimpleIoc.Default.GetInstance<ITennisMatchState>();
             
             SimpleIoc.Default.Register<IScoreBoardContext>(() => new ScoreBoardContext(optionsBuilder.Options));
             var scoreBoardContext = SimpleIoc.Default.GetInstance<IScoreBoardContext>();
@@ -27,17 +42,11 @@ namespace TennisScoreBoard.App.ViewModel
             SimpleIoc.Default.Register<IMatchService>(()=> new MatchService(scoreBoardContext));
             var matchService = SimpleIoc.Default.GetInstance<IMatchService>();
 
-            SimpleIoc.Default.Register(()=> new AddPlayerViewModel(matchService));
-            var addPlayerViewModel = SimpleIoc.Default.GetInstance<AddPlayerViewModel>();
-            
-            SimpleIoc.Default.Register(() => new StartMatchViewModel(matchService, addPlayerViewModel));
+            SimpleIoc.Default.Register(()=> new AddPlayerViewModel(matchService, matchState));
+            SimpleIoc.Default.Register(() => new StartMatchViewModel(matchService, matchState));
             SimpleIoc.Default.Register<MainViewModel>();
-            
-            var startMatchViewModel = SimpleIoc.Default.GetInstance<StartMatchViewModel>();
-            SimpleIoc.Default.Register(() => new PlayerScoringViewModel(matchService, startMatchViewModel));
-         
-            var playerScoringViewModel = SimpleIoc.Default.GetInstance<PlayerScoringViewModel>();
-            SimpleIoc.Default.Register<ScoreBoardViewModel>(()=> new ScoreBoardViewModel(matchService, startMatchViewModel, playerScoringViewModel));
+            SimpleIoc.Default.Register(() => new PlayerScoringViewModel(matchService, matchState));
+            SimpleIoc.Default.Register<ScoreBoardViewModel>(()=> new ScoreBoardViewModel(matchService, matchState));
         }
 
         public MainViewModel MainView => SimpleIoc.Default.GetInstance<MainViewModel>();

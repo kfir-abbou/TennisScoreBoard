@@ -2,6 +2,7 @@
 using System.Reactive;
 using System.Reactive.Linq;
 using GalaSoft.MvvmLight;
+using TennisScoreBoard.App.Common;
 using TennisScoreBoard.EF;
 using TennisScoreBoard.ScoreManager.Interface;
 
@@ -10,7 +11,7 @@ namespace TennisScoreBoard.App.ViewModel
     public class ScoreBoardViewModel : ViewModelBase
     {
         private IScoreBoardData m_currentData;
-        private IMatchService m_matchService;
+        private readonly IMatchService m_matchService;
         private bool m_showScoreBoard;
         private TennisMatch m_currentMatch;
         private string m_firstPlayer;
@@ -30,10 +31,10 @@ namespace TennisScoreBoard.App.ViewModel
         public string SecondPlayer => m_SecondPlayer;
 
 
-        public ScoreBoardViewModel(IMatchService matchService, StartMatchViewModel startMatchViewModel, PlayerScoringViewModel playerScoringViewModel)
+        public ScoreBoardViewModel(IMatchService matchService, ITennisMatchState matchState)
         {
-            startMatchViewModel.NewMatchStarted.ObserveOnDispatcher().Subscribe(onNewMatchStarted);
-            playerScoringViewModel.PlayerScored.ObserveOnDispatcher().Subscribe(onPlayerScored);
+            matchState.NewMatchStarted.ObserveOnDispatcher().Subscribe(onNewMatchStarted);
+            matchState.PlayerScored.ObserveOnDispatcher().Subscribe(onPlayerScored);
             m_matchService = matchService;
 
             ShowScoreBoard = false;
@@ -50,7 +51,6 @@ namespace TennisScoreBoard.App.ViewModel
             m_currentMatch = match;
             setPlayersNames(match);
             refreshScoreData();
-            
         }
 
         private void setPlayersNames(TennisMatch match)
@@ -72,7 +72,7 @@ namespace TennisScoreBoard.App.ViewModel
             }
             else
             {
-                // todo: handle null
+                throw new NullReferenceException("[refreshScoreData] GetScoreBoardData returns null");
             }
         }
 

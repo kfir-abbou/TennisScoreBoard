@@ -10,7 +10,7 @@ namespace TennisScoreBoard.EF
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public int Id { get; private set; }
 
         public Game Game { get; set; }
 

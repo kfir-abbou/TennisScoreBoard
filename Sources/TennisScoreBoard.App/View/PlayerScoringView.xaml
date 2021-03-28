@@ -9,51 +9,58 @@
              d:DesignHeight="200" d:DesignWidth="400"
              DataContext="{Binding PlayerScore, Source={StaticResource Locator}}"
              >
-  <GroupBox>
-      <Grid>
-          <Grid.RowDefinitions>
-              <RowDefinition Height="*" />
-              <RowDefinition Height="5*" />
-          </Grid.RowDefinitions>
+    <GroupBox>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="5*" />
+            </Grid.RowDefinitions>
 
-          <TextBlock Grid.Row="0" 
+            <TextBlock Grid.Row="0" 
                      Style="{StaticResource ucTitle}"
                      Text="Match Scoring"
                      HorizontalAlignment="Center"/>
 
-          <Grid Grid.Row="1">
-              <Grid.RowDefinitions>
-                  <RowDefinition Height="*"/>
-                  <RowDefinition Height="*"/>
-              </Grid.RowDefinitions>
-              <Grid.ColumnDefinitions>
-                  <ColumnDefinition Width="*" />
-                  <ColumnDefinition Width="5*" />
-              </Grid.ColumnDefinitions>
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="5*" />
+                </Grid.ColumnDefinitions>
 
-              <TextBlock
-                  Grid.Row="0" 
+                <TextBlock 
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Text="{Binding MatchOverText}" />
+
+                <TextBlock
+                  Grid.Row="1" 
                   Grid.Column="1" 
                   VerticalAlignment="Center" 
                   Text="First Player Scored"/>
-              <TextBlock
-                  Grid.Row="1"
+
+                <TextBlock
+                  Grid.Row="2"
                   Grid.Column="1"
                   VerticalAlignment="Center" 
                   Text="Second Player Scored"/>
-              <Button 
+                <Button 
                   x:Name="FirstScoreBtn"
-                  Grid.Row="0"
+                  Grid.Row="1"
                   Grid.Column="0"
                   Command="{Binding PlayerScoredCommand}" 
                   CommandParameter="{x:Static common:PLAYER.FIRST}"/>
-              <Button
+                <Button
                   x:Name="SecondScoreBtn" 
-                  Grid.Row="1"
+                  Grid.Row="2"
                   Grid.Column="0"
                   Command="{Binding PlayerScoredCommand}"
                   CommandParameter="{x:Static common:PLAYER.SECOND}"/>
-          </Grid>
-      </Grid>
+            </Grid>
+        </Grid>
     </GroupBox>
 </UserControl>

@@ -7,6 +7,7 @@ using AutoFixture;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using TennisScoreBoard.App.Config;
 using TennisScoreBoard.EF;
 using TennisScoreBoard.ScoreManager.Common;
 using TennisScoreBoard.ScoreManager.Implementation;
@@ -28,8 +29,11 @@ namespace TennisScoreBoard.Test
 
         public MatchServiceTest()
         {
+            var serializer = new ConfigSerializer();
+            var config = serializer.LoadScoreboardConfig(Constants.CONFIG_FILE);
+
             var optionsBuilder = new DbContextOptionsBuilder<ScoreBoardContext>();
-            optionsBuilder.UseSqlServer(@"Server=L-P-KFIRABB-WWN\SQLEXPRESS;Database=TennisScoreDb_ForTest;Trusted_Connection=True;");
+            optionsBuilder.UseSqlServer(@$"Server={config.ConnectionString};Database=TennisScoreDb_ForTest;Trusted_Connection=True;");
             var context = new ScoreBoardContext(optionsBuilder.Options);
 
             m_matchService = new MatchService(context);
@@ -392,6 +396,31 @@ namespace TennisScoreBoard.Test
             Assert.AreEqual(p2.Object, sets[^2].Winner);
         }
 
+        [TestMethod]
+        public void UpdateGameResultTest_SecondPlayerWinsSet_bothPlayersWinsGames()
+        {
+            var p1 = new Mock<TennisPlayer>();
+            var p2 = new Mock<TennisPlayer>();
+
+            var match = m_matchService.StartMatch(p1.Object, p2.Object);
+
+            var scoresToWinSingleSet = Constants.NUMBER_OF_SCORES_TO_WIN_GAME *
+                                       Constants.NUMBER_OF_GAMES_TO_WIN_SET;
+
+            for (var i = 0; i < Constants.NUMBER_OF_SCORES_TO_WIN_GAME; i++)
+            {
+                m_matchService.UpdateGameResult(match, PLAYER.FIRST);
+            }
+
+            for (var i = 0; i < scoresToWinSingleSet; i++)
+            {
+                m_matchService.UpdateGameResult(match, PLAYER.SECOND);
+            }
+
+            var sets = match.Sets.ToArray();
+
+            Assert.AreEqual(p2.Object, sets[^2].Winner);
+        }
 
         [TestMethod]
         public void UpdateGameResultTest_firsPlayerWinsSetAfterGetAndLooseAdvantage()
@@ -628,7 +657,7 @@ namespace TennisScoreBoard.Test
             var res = m_matchService.GetScoreBoardData(null);
             if (res == null)
             {
-
+                //
             }
             Assert.AreEqual(null, res);
         }

@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\TennisScoreBoard.App\TennisScoreBoard.App.csproj" />
     <ProjectReference Include="..\TennisScoreBoard.ScoreManager\TennisScoreBoard.ScoreManager.csproj" />
   </ItemGroup>
 

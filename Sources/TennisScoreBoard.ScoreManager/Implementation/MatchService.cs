@@ -53,17 +53,19 @@ namespace TennisScoreBoard.ScoreManager.Implementation
         /// <returns>matchData</returns>
         public TennisMatch StartMatch(TennisPlayer p1, TennisPlayer p2)
         {
-            var set = new TennisSet(); // Create a new Game as well
-            var game = set.Games.Last();
-            // set.Games.Add(game);
 
             var match = new TennisMatch
             {
                 FirstPlayer = p1,
                 SecondPlayer = p2,
-                Sets = new List<TennisSet> { set }
+                Sets = new List<TennisSet>
+                {
+                    new TennisSet()
+                }
             };
 
+            var set = match.Sets.OrderBy(s => s.Id).Last();
+            var game = set.Games.Last();
 
             m_context.Game.Add(game);
             m_context.TennisSet.Add(set);
@@ -201,7 +203,6 @@ namespace TennisScoreBoard.ScoreManager.Implementation
 
                     if (match.IsOver)
                     {
-                        // TODO: notify user!
                         setMatchWinner(match);
                     }
                     else
@@ -276,7 +277,8 @@ namespace TennisScoreBoard.ScoreManager.Implementation
             var winner = p1Wins > p2Wins ?
                 match.FirstPlayer :
                 match.SecondPlayer;
-            game.SetGameWinner(winner);
+            // game.SetGameWinner(winner);
+            game.Winner = winner;
         }
 
         private IEnumerable<GameScores> getGamescoresDataByGanmeId(int currentGameId)

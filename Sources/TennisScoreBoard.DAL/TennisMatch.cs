@@ -17,17 +17,5 @@ namespace TennisScoreBoard.EF
         public TennisPlayer FirstPlayer { get; set; }
         public TennisPlayer SecondPlayer { get; set; }
         public bool IsOver { get; set; }
-
-        public TennisMatch()
-        {
-            // IsOver = false;
-        }
-
-        public TennisMatch(TennisPlayer firstPlayer, TennisPlayer secondPlayer)
-        {
-            Sets = new List<TennisSet> {new TennisSet()};
-            FirstPlayer = firstPlayer;
-            SecondPlayer = secondPlayer;
-        }
     }
 }

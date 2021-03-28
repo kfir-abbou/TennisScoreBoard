@@ -10,11 +10,6 @@ namespace TennisScoreBoard.EF
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; }
 
-        public TennisPlayer Winner { get; private set; }
-
-        public void SetGameWinner(TennisPlayer player)
-        {
-            Winner = player ?? throw new ArgumentException("Player is null ");
-        }
+        public TennisPlayer Winner { get;  set; }
     }
 }

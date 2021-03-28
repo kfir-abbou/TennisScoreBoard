@@ -4,6 +4,7 @@ using System.Text;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using TennisScoreBoard.App.Config;
 using TennisScoreBoard.EF;
 using TennisScoreBoard.ScoreManager.Common;
 using TennisScoreBoard.ScoreManager.Implementation;
@@ -14,17 +15,18 @@ namespace TennisScoreBoard.Test
     [TestClass]
     public class ScoreBoardDataTest
     {
-
         private Mock<TennisMatch> m_matchMock;
         private Mock<TennisPlayer> m_p1;
         private Mock<TennisPlayer> m_p2;
-        private IMatchService m_matchService;
+        private readonly IMatchService m_matchService;
 
         public ScoreBoardDataTest()
         {
+            var serializer =  new ConfigSerializer();
+            var config = serializer.LoadScoreboardConfig(Constants.CONFIG_FILE);
+
             var optionsBuilder = new DbContextOptionsBuilder<ScoreBoardContext>();
-            // TODO: kfir -> extract connection string to config
-            optionsBuilder.UseSqlServer(@"Server=L-P-KFIRABB-WWN\SQLEXPRESS;Database=TennisScoreDb_ForTest;Trusted_Connection=True;");
+            optionsBuilder.UseSqlServer(@$"Server={config.ConnectionString};Database=TennisScoreDb_ForTest;Trusted_Connection=True;");
             var context = new ScoreBoardContext(optionsBuilder.Options);
 
             m_matchService = new MatchService(context);

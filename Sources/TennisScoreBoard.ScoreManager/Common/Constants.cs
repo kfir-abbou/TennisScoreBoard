@@ -9,5 +9,7 @@ namespace TennisScoreBoard.ScoreManager.Common
         public const int NUMBER_OF_SCORES_TO_WIN_GAME = 4;
         public const int NUMBER_OF_GAMES_TO_WIN_SET = 5;
         public const int NUMBER_OF_SETS_TO_WIN_MATCH = 6;
+
+        public const string CONFIG_FILE = @"Config\ScoreboardConfig.xml";
     }
 }
