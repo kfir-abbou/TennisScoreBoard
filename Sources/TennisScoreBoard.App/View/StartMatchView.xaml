@@ -9,51 +9,52 @@
              d:DesignHeight="200" d:DesignWidth="400"
              DataContext="{Binding StartMatch, Source={StaticResource Locator}}">
 
-    <GroupBox>
-        <Grid>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="4*" />
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Text="Start New Match" HorizontalAlignment="Center" Style="{StaticResource ucTitle}"/>
+        <Grid Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
-                <RowDefinition Height="4*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0" Text="Start New Match" HorizontalAlignment="Center" Style="{StaticResource ucTitle}"/>
-            <Grid Grid.Row="1">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="2*" />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
 
-                <ComboBox x:Name="p1Cb" Grid.Row="0" Grid.Column="1"
+            <ComboBox x:Name="p1Cb" Grid.Row="0" Grid.Column="1"
                           ItemsSource="{Binding PlayersItemsSource}"
-                          SelectedItem="{Binding p1SelectedItem, Mode=OneWayToSource}">
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Converter={converters:TennisPlayerToFullNameStringConverter}}" />
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>
-                <ComboBox x:Name="p2Cb" Grid.Row="1" Grid.Column="1"  ItemsSource="{Binding PlayersItemsSource}"
-                          SelectedItem="{Binding p2SelectedItem, Mode=OneWayToSource}">
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Converter={converters:TennisPlayerToFullNameStringConverter}}" />
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>
+                          SelectedItem="{Binding p1SelectedItem, Mode=OneWayToSource}" 
+                          Style="{StaticResource playerCombo}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Converter={converters:TennisPlayerToFullNameStringConverter}}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <ComboBox x:Name="p2Cb" Grid.Row="1" Grid.Column="1"  
+                          ItemsSource="{Binding PlayersItemsSource}"
+                          SelectedItem="{Binding p2SelectedItem, Mode=OneWayToSource}"
+                          Style="{StaticResource playerCombo}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Converter={converters:TennisPlayerToFullNameStringConverter}}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
 
-                <TextBlock Grid.Row="0" Grid.Column="0" Text="First Player" />
-                <TextBlock Grid.Row="1" Grid.Column="0" Text="Second Player" />
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="First Player" />
+            <TextBlock Grid.Row="1" Grid.Column="0" Text="Second Player" />
 
-                <Button x:Name="StartMatchBtn" 
+            <Button x:Name="StartMatchBtn" 
                         Command="{Binding StartMatchCommand}"
                         Content="Start"
                         Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" />
-            </Grid>
         </Grid>
-     
-    </GroupBox>
+    </Grid>
+
 </UserControl>

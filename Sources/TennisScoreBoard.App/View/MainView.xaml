@@ -6,9 +6,12 @@
         xmlns:local="clr-namespace:TennisScoreBoard.App.View"
         xmlns:converters="clr-namespace:TennisScoreBoard.App.Converters"
         mc:Ignorable="d"
-        DataContext="{Binding MainView, Source={StaticResource Locator}}"
-        Title="Tennis Match Emulator" 
-        >
+        DataContext="{Binding MainView,
+                      Source={StaticResource Locator}}"
+        Title="Tennis Match Emulator" >
+    <Window.Background>
+        <ImageBrush ImageSource="../Resources/Images/Grass.jpg" Stretch="Fill" />
+    </Window.Background>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
@@ -16,6 +19,9 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions >
             <RowDefinition Height="*" />
+            <RowDefinition Height="0.02*" />
+            <RowDefinition Height="1.2*" />
+            <RowDefinition Height="0.02*" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
@@ -23,19 +29,22 @@
             Grid.Row="0" 
             Grid.Column="0" />
 
-        <local:StartMatchView 
-            Grid.Row="0"
-            Grid.Column="1"
-            IsEnabled="{Binding IsViewEnabled}"/>
+        <GridSplitter Grid.Row="1"/>
 
-        <local:PlayerScoringView 
-            Grid.Row="1" 
+        <local:StartMatchView 
+            Grid.Row="2"
             Grid.Column="0"
             IsEnabled="{Binding IsViewEnabled}"/>
 
-        <local:ScoreBoardView Grid.Row="1" Grid.Column="1" />
-                              <!-- Visibility="{Binding ShowScoreBoard, Converter={converters:BoolToVisibilityConverter}}" /> -->
+        <GridSplitter Grid.Row="3"/>
+
+        <local:PlayerScoringView 
+            Grid.Row="4" 
+            Grid.Column="0"
+            IsEnabled="{Binding IsViewEnabled}"/>
+
+        <local:ScoreBoardView Grid.Row="0" Grid.Column="1" Grid.RowSpan="5" />
 
     </Grid>
-  
+
 </Window>

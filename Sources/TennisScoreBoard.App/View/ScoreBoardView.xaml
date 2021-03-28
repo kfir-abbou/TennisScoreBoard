@@ -7,21 +7,28 @@
              xmlns:converters="clr-namespace:TennisScoreBoard.App.Converters"
              mc:Ignorable="d" 
              DataContext="{Binding ScoreBoard, Source={StaticResource Locator}}"
-            d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800">
+
     <UserControl.Resources>
-        <Style TargetType="{x:Type TextBlock}">
-            <Setter Property="HorizontalAlignment" Value="Center" />
+        <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource scoreboardText}">
             <Setter Property="Margin" Value="5" />
         </Style>
     </UserControl.Resources>
-    <GroupBox>
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="7*" />
-            </Grid.RowDefinitions>
 
-            <TextBlock Grid.Row="0" Text="Scoreboard" Style="{StaticResource ucTitle}"/>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="6*" />
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" Style="{StaticResource scoreboardViewTitleBorder}">
+            <TextBlock Grid.Row="0"
+                           Text="Scoreboard" 
+                           Style="{StaticResource scoreboardViewTitle}"/>
+        </Border>
+
+        <Border Grid.Row="1"
+                    Style="{StaticResource scoreboardBorder}" Background="#FF0E6930">
 
             <Grid Grid.Row="1" ShowGridLines="True">
                 <Grid.RowDefinitions>
@@ -34,24 +41,39 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding FirstPlayer}"/>
-                <TextBlock Grid.Row="2" Grid.Column="0" Text="{Binding SecondPlayer}"/>
-                <TextBlock Grid.Row="0" Grid.Column="3" Text="Games"/>
-                <TextBlock Grid.Row="0" Grid.Column="2" Text="Sets" />
-                <TextBlock Grid.Row="0" Grid.Column="4" Text="Points" />
+                <TextBlock Grid.Row="1" Grid.Column="0" 
+                               Text="{Binding FirstPlayer}"
+                               Style="{StaticResource scoreboardTitle}"/>
+                <TextBlock Grid.Row="2" Grid.Column="0"
+                               Text="{Binding SecondPlayer}"
+                               Style="{StaticResource scoreboardTitle}"/>
+                <TextBlock Grid.Row="0" Grid.Column="1"
+                               Text="Sets" 
+                               Style="{StaticResource scoreboardTitle}"/>
+                <TextBlock Grid.Row="0" Grid.Column="2"
+                               Text="Games"
+                               Style="{StaticResource scoreboardTitle}"/>
+                <TextBlock Grid.Row="0" Grid.Column="3" 
+                               Text="Points" 
+                               Style="{StaticResource scoreboardTitle}"/>
 
-                <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding CurrentData.P1SetWins }"/>
-                <TextBlock Grid.Row="2" Grid.Column="2" Text="{Binding CurrentData.P2SetWins}"/>
-                <TextBlock Grid.Row="1" Grid.Column="3" Text="{Binding CurrentData.P1GameWins }"/>
-                <TextBlock Grid.Row="2" Grid.Column="3" Text="{Binding CurrentData.P2GameWins }"/>
-                <TextBlock Grid.Row="1" Grid.Column="4" Text="{Binding CurrentData.P1Points, Converter={converters:PointsToStringConverter}}"/>
-                <TextBlock Grid.Row="2" Grid.Column="4" Text="{Binding CurrentData.P2Points, Converter={converters:PointsToStringConverter}}"/>
+                <TextBlock Grid.Row="1" Grid.Column="1"
+                               Text="{Binding CurrentData.P1SetWins }"/>
+                <TextBlock Grid.Row="2" Grid.Column="1" 
+                               Text="{Binding CurrentData.P2SetWins}"/>
+                <TextBlock Grid.Row="1" Grid.Column="2"
+                               Text="{Binding CurrentData.P1GameWins }"/>
+                <TextBlock Grid.Row="2" Grid.Column="2" 
+                               Text="{Binding CurrentData.P2GameWins }"/>
+                <TextBlock Grid.Row="1" Grid.Column="3" 
+                               Text="{Binding CurrentData.P1Points, Converter={converters:PointsToStringConverter}}"/>
+                <TextBlock Grid.Row="2" Grid.Column="3"
+                               Text="{Binding CurrentData.P2Points, Converter={converters:PointsToStringConverter}}"/>
 
             </Grid>
-        </Grid>
-        
-    </GroupBox>
+        </Border>
+    </Grid>
+
 </UserControl>

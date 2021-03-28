@@ -9,6 +9,10 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <OutputPath>..\..\Deploy</OutputPath>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\Images\grass.jpg" />
+  </ItemGroup>
    
   <ItemGroup>
     <Folder Include="Model\" />
@@ -23,6 +27,10 @@
    
   <ItemGroup>
     <ProjectReference Include="..\TennisScoreBoard.ScoreManager\TennisScoreBoard.ScoreManager.csproj" />
+  </ItemGroup>
+   
+  <ItemGroup>
+    <Resource Include="Resources\Images\grass.jpg" />
   </ItemGroup>
    
   <ItemGroup>
