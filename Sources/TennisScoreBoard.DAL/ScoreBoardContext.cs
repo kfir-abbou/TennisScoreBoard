@@ -17,6 +17,7 @@ namespace TennisScoreBoard.EF
         public DbSet<GameScores> GameScores { get; set; }
         public DbSet<TennisSet> TennisSet { get; set; }
         public DbSet<TennisMatch> TennisMatch { get; set; }
+        
         public void SaveData()
         {
             this.SaveChanges();
@@ -24,16 +25,30 @@ namespace TennisScoreBoard.EF
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<TennisPlayer>()
-                .HasKey(p => new { p.Id });
+            modelBuilder.Entity<TennisPlayer>(entity =>
+                {
+                    entity.HasKey(p => new { p.Id });
+                    entity.Property<string>(player => player.FirstName).IsRequired();
+                    entity.Property<string>(player => player.LastName).IsRequired();
+                });
+
             modelBuilder.Entity<GameScores>()
                 .HasKey(p => new { p.Id });
             modelBuilder.Entity<Game>()
                 .HasKey(p => new { p.Id });
-            modelBuilder.Entity<TennisSet>()
-                .HasKey(p => new { p.Id });
-            modelBuilder.Entity<TennisMatch>()
-                .HasKey(p => new { p.Id });
+
+            modelBuilder.Entity<TennisSet>(entity =>
+            {
+                entity.HasKey(p => new { p.Id });
+                entity.HasMany<Game>(set => set.Games);
+            });
+
+            modelBuilder.Entity<TennisMatch>(entity =>
+            {
+                entity.HasKey(p => new { p.Id });
+                entity.HasMany<TennisSet>(match => match.Sets);
+            });
+
         }
     }
 
@@ -45,6 +60,5 @@ namespace TennisScoreBoard.EF
         DbSet<TennisSet> TennisSet { get; }
         DbSet<TennisMatch> TennisMatch { get; }
         void SaveData();
-
     }
 }

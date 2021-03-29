@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using System.Windows.Forms;
 using System.Windows.Input;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
@@ -49,17 +50,44 @@ namespace TennisScoreBoard.App.ViewModel
         private void executeAddPlayerCommand()
         {
             s_log.DebugFormat($"[executeAddPlayerCommand]");
-            if (PlayerFirstName == null || PlayerLastName == null)
+            var succeeded = false;
+            if (validateData())
             {
-                return;
+                succeeded = m_matchService.AddPlayer(PlayerFirstName, PlayerLastName);
+                if (succeeded)
+                {
+                    clearView();
+                    m_matchState.NotifyOnPlayerAdded();
+                }
             }
-            var succeeded = m_matchService.AddPlayer(PlayerFirstName, PlayerLastName);
-            if (succeeded)
-            {
-                clearView();
-                m_matchState.NotifyOnPlayerAdded();
-            }
+       
             s_log.DebugFormat($"[executeAddPlayerCommand] Add player succeeded: {succeeded}");
+        }
+
+        private bool validateData()
+        {
+            var msg = string.Empty;
+            var isValid = false;
+            if (string.IsNullOrEmpty(PlayerFirstName) )
+            {
+                msg = $"Please enter player first name";
+            }
+            else if (string.IsNullOrEmpty(PlayerLastName))
+            {
+                msg = $"Please enter player last name";
+            }
+            else
+            {
+                isValid = true;
+            }
+
+            if (!isValid)
+            {
+                MessageBox.Show(msg, "Player data validation",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            return isValid;
         }
 
         private void clearView()

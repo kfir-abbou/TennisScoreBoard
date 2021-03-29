@@ -10,7 +10,7 @@
                       Source={StaticResource Locator}}"
         Title="Tennis Match Emulator" >
     <Window.Background>
-        <ImageBrush ImageSource="../Resources/Images/Grass.jpg" Stretch="Fill" />
+        <ImageBrush ImageSource="../Resources/Images/clay.jpg" Stretch="None" />
     </Window.Background>
     <Grid>
         <Grid.ColumnDefinitions>
