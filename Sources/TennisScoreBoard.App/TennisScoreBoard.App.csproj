@@ -32,7 +32,6 @@
    
   <ItemGroup>
     <Resource Include="Resources\Images\clay.jpg" />
-    <Resource Include="Resources\Images\grass.jpg" />
   </ItemGroup>
    
   <ItemGroup>
