@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using TennisScoreBoard.App.Config;
 using TennisScoreBoard.EF;
+using TennisScoreBoard.EF.Model;
+using TennisScoreBoard.EF.Repository;
 using TennisScoreBoard.ScoreManager.Common;
 using TennisScoreBoard.ScoreManager.Implementation;
 using TennisScoreBoard.ScoreManager.Interface;
@@ -19,18 +16,25 @@ namespace TennisScoreBoard.Test
         private Mock<TennisPlayer> m_p1;
         private Mock<TennisPlayer> m_p2;
         private readonly IMatchService m_matchService;
+        private readonly RepositoryManager m_repoMgr;
+
 
         public ScoreBoardDataTest()
         {
-            var serializer =  new ConfigSerializer();
-            var config = serializer.LoadScoreboardConfig(Constants.CONFIG_FILE);
+            // var serializer =  new ConfigLoader();
+            // var config = serializer.LoadScoreboardConfig(Constants.CONFIG_FILE);
+            // var optionsBuilder = new DbContextOptionsBuilder<ScoreBoardContext>();
+            // optionsBuilder.UseSqlServer(@$"Server={config.ConnectionString};Database=TennisScoreDb_ForTest;Trusted_Connection=True;");
+            // optionsBuilder.UseSqlite("Data Source=sqlitedemo.db");
 
-            var optionsBuilder = new DbContextOptionsBuilder<ScoreBoardContext>();
-            optionsBuilder.UseSqlServer(@$"Server={config.ConnectionString};Database=TennisScoreDb_ForTest;Trusted_Connection=True;");
-            var context = new ScoreBoardContext(optionsBuilder.Options);
+            var context = new ScoreBoardContext();
+            m_repoMgr = new RepositoryManager(context);
+            m_matchService = new MatchService(m_repoMgr);
 
-            m_matchService = new MatchService(context);
+
+            m_matchService = new MatchService(m_repoMgr);
         }
+        
         [TestInitialize]
         public void InitScoreBoardTest()
         {
@@ -121,8 +125,6 @@ namespace TennisScoreBoard.Test
 
             var match = m_matchService.StartMatch(p1.Object, p2.Object);
 
-            var isMatchOver = false;
-
             var totalServes = Constants.NUMBER_OF_SCORES_TO_WIN_GAME *
                               Constants.NUMBER_OF_GAMES_TO_WIN_SET *
                               Constants.NUMBER_OF_SETS_TO_WIN_MATCH;
@@ -133,7 +135,7 @@ namespace TennisScoreBoard.Test
                 m_matchService.UpdateGameResult(match, PLAYER.SECOND);
             }
 
-            isMatchOver = m_matchService.GetScoreBoardData(match).IsMatchOver;
+            var isMatchOver = m_matchService.GetScoreBoardData(match).IsMatchOver;
 
             Assert.AreEqual(true, isMatchOver);
         }

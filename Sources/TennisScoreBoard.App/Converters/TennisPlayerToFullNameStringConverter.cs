@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Markup;
 using TennisScoreBoard.EF;
+using TennisScoreBoard.EF.Model;
 
 namespace TennisScoreBoard.App.Converters
 {

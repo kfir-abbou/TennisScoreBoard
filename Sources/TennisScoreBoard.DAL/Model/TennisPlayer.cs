@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace TennisScoreBoard.EF
+namespace TennisScoreBoard.EF.Model
 {
     public class TennisPlayer
     {

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using TennisScoreBoard.EF;
+using TennisScoreBoard.EF.Model;
 using TennisScoreBoard.ScoreManager.Common;
 
 namespace TennisScoreBoard.ScoreManager.Interface

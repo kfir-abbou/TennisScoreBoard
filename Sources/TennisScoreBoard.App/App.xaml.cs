@@ -7,6 +7,7 @@ using System.Windows.Navigation;
 using log4net;
 using log4net.Config;
 
+[assembly: log4net.Config.XmlConfigurator(Watch = true)]
 namespace TennisScoreBoard.App
 {
     

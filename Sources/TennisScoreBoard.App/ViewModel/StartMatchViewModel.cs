@@ -10,6 +10,7 @@ using GalaSoft.MvvmLight.Command;
 using log4net;
 using TennisScoreBoard.App.Common;
 using TennisScoreBoard.EF;
+using TennisScoreBoard.EF.Model;
 using TennisScoreBoard.ScoreManager.Interface;
 
 namespace TennisScoreBoard.App.ViewModel

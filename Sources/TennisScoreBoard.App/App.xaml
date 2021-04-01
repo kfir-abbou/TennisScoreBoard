@@ -8,6 +8,7 @@
              StartupUri="View/MainView.xaml">
     <Application.Resources>
         <ResourceDictionary>
+            <viewModel:Bootstrapper x:Key="Locator" d:IsDataSource="True" xmlns:vm="clr-namespace:TennisScoreBoard.App.ViewModel" />
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.flatbutton.xaml" />
                 <!-- <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.TreeView.xaml" /> -->
@@ -16,7 +17,6 @@
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Themes/Dark.Blue.xaml" />
                 <ResourceDictionary Source="Resources/Resources.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            <viewModel:ViewModelLocator x:Key="Locator" d:IsDataSource="True" xmlns:vm="clr-namespace:TennisScoreBoard.App.ViewModel" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

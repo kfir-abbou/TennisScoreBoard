@@ -4,6 +4,7 @@ using System.Reactive.Linq;
 using GalaSoft.MvvmLight;
 using TennisScoreBoard.App.Common;
 using TennisScoreBoard.EF;
+using TennisScoreBoard.EF.Model;
 using TennisScoreBoard.ScoreManager.Interface;
 
 namespace TennisScoreBoard.App.ViewModel

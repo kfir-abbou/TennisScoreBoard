@@ -5,6 +5,8 @@ using System.Net.Http.Headers;
 using System.Reflection;
 using log4net;
 using TennisScoreBoard.EF;
+using TennisScoreBoard.EF.Model;
+using TennisScoreBoard.EF.Repository;
 using TennisScoreBoard.ScoreManager.Common;
 using TennisScoreBoard.ScoreManager.Interface;
 
@@ -12,13 +14,16 @@ namespace TennisScoreBoard.ScoreManager.Implementation
 {
     public class MatchService : IMatchService
     {
-        private readonly IScoreBoardContext m_context;
+        // private readonly IScoreBoardContext m_context;
         private static readonly ILog s_log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        private IRepositoryManager m_repositoryManager;
 
-        public MatchService(IScoreBoardContext context)
+        // public MatchService(IScoreBoardContext context)
+        public MatchService(IRepositoryManager repositoryManager)
         {
             s_log.DebugFormat($"[MatchService]");
-            m_context = context;
+            // m_context = context;
+            m_repositoryManager = repositoryManager;
         }
 
         public bool AddPlayer(string first, string last)
@@ -29,19 +34,19 @@ namespace TennisScoreBoard.ScoreManager.Implementation
                 return false;
             }
 
-            if (m_context.Players.Any(p => p.FirstName == first && p.LastName == last))
+            if (m_repositoryManager.TennisPlayerRepository.GetAll().Any(p => p.FirstName == first && p.LastName == last))
             {
                 return true;
             }
 
-            m_context.Players.Add(new TennisPlayer
+            m_repositoryManager.TennisPlayerRepository.Add(new TennisPlayer
             {
                 FirstName = first,
                 LastName = last
             });
 
 
-            m_context.SaveData();
+            m_repositoryManager.SaveData();
             return true;
         }
 
@@ -67,12 +72,12 @@ namespace TennisScoreBoard.ScoreManager.Implementation
             var set = match.Sets.OrderBy(s => s.Id).Last();
             var game = set.Games.Last();
 
-            m_context.Game.Add(game);
-            m_context.TennisSet.Add(set);
-            m_context.TennisMatch.Add(match);
-            m_context.SaveData();
+            m_repositoryManager.GameRepository.Add(game);
+            m_repositoryManager.TennisSetRepository.Add(set);
+            m_repositoryManager.TennisMatchRepository.Add(match);
+            m_repositoryManager.SaveData();
 
-            var matchData = m_context.TennisMatch.OrderBy(m => m.Id).Last();
+            var matchData = m_repositoryManager.TennisMatchRepository.GetAll().OrderBy(m => m.Id).Last();
 
             return matchData;
         }
@@ -84,13 +89,14 @@ namespace TennisScoreBoard.ScoreManager.Implementation
                 throw new ArgumentNullException("Match is null");
             }
             var currentGame = getCurrentGame(match);
-            m_context.GameScores.Add(new GameScores
+            
+            m_repositoryManager.GameScoreRepository.Add(new GameScores
             {
                 Game = (Game)currentGame,
                 ScoringPlayer = (int)player
             });
 
-            m_context.SaveData();
+            m_repositoryManager.SaveData();
             var isMatchOver = CheckMatchStatus(match);
             return isMatchOver;
         }
@@ -105,7 +111,6 @@ namespace TennisScoreBoard.ScoreManager.Implementation
                 .LastOrDefault().Games.OrderBy(g => g.Id)
                 .LastOrDefault();
         }
-
 
         public IScoreBoardData GetScoreBoardData(TennisMatch match)
         {
@@ -177,7 +182,7 @@ namespace TennisScoreBoard.ScoreManager.Implementation
 
         public IList<TennisPlayer> GetPlayers()
         {
-            return m_context.Players.ToList();
+            return m_repositoryManager.TennisPlayerRepository.GetAll().ToList();
         }
 
         private bool CheckMatchStatus(TennisMatch match)
@@ -211,8 +216,8 @@ namespace TennisScoreBoard.ScoreManager.Implementation
                         var game = set.Games.Last();
                         match.Sets.Add(set);
 
-                        m_context.TennisSet.Add(set);
-                        m_context.Game.Add(game);
+                        m_repositoryManager.TennisSetRepository.Add(set);
+                        m_repositoryManager.GameRepository.Add(game);
                     }
                 }
                 else
@@ -220,10 +225,10 @@ namespace TennisScoreBoard.ScoreManager.Implementation
                     // Start new game
                     var game = createNewGame();
                     tennisSet.Games.Add(game);
-                    m_context.Game.Add(game);
+                    m_repositoryManager.GameRepository.Add(game);
                 }
             }
-            m_context.SaveData();
+            m_repositoryManager.SaveData();
             return match.IsOver;
         }
 
@@ -267,7 +272,7 @@ namespace TennisScoreBoard.ScoreManager.Implementation
 
         private void setGameWinner(int currentGameId, TennisMatch match)
         {
-            var game = m_context.Game.SingleOrDefault(g => g.Id == currentGameId);
+            var game = m_repositoryManager.GameRepository.Get(currentGameId);
 
             var gameScores = getGamescoresDataByGanmeId(currentGameId);
 
@@ -283,7 +288,7 @@ namespace TennisScoreBoard.ScoreManager.Implementation
 
         private IEnumerable<GameScores> getGamescoresDataByGanmeId(int currentGameId)
         {
-            var gameScores = m_context.GameScores.Where(gs => gs.Game.Id == currentGameId)
+            var gameScores = m_repositoryManager.GameScoreRepository.Find(gs => gs.Game.Id == currentGameId)
                 .OrderBy(gs => gs.ScoringPlayer);
 
             return gameScores;
@@ -293,8 +298,7 @@ namespace TennisScoreBoard.ScoreManager.Implementation
         {
             var retVal = false;
 
-            var gameScores = m_context.GameScores
-                .Where(gs => gs.Game.Id == gameId)
+            var gameScores = m_repositoryManager.GameScoreRepository.Find(gs => gs.Game.Id == gameId)
                 .AsEnumerable()
                 .GroupBy(gs => gs.ScoringPlayer);
 

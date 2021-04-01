@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
-namespace TennisScoreBoard.EF
+namespace TennisScoreBoard.EF.Model
 {
     public class TennisSet
     {

@@ -4,6 +4,7 @@ using System.Reactive.Subjects;
 using System.Reflection;
 using log4net;
 using TennisScoreBoard.EF;
+using TennisScoreBoard.EF.Model;
 
 namespace TennisScoreBoard.App.Common
 {
