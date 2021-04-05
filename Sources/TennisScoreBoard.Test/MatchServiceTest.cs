@@ -23,16 +23,9 @@ namespace TennisScoreBoard.Test
 
         public MatchServiceTest()
         {
-            // var serializer = new ConfigLoader();
-            // var config = serializer.LoadScoreboardConfig(Constants.CONFIG_FILE);
-            // var optionsBuilder = new DbContextOptionsBuilder<ScoreBoardContext>();
-            // optionsBuilder.UseSqlServer(@$"Server={config.ConnectionString};Database=TennisScoreDb_ForTest;User Id={config.UserId};Password={config.Password};");
-            // optionsBuilder.UseSqlServer($@"Server={config.ConnectionString};Database=TennisScoreDb;Integrated Security=true;Trusted_Connection=True;");
-
             var context = new ScoreBoardContext();
             m_repoMgr = new RepositoryManager(context);
             m_matchService = new MatchService(m_repoMgr);
-
         }
 
         [TestInitialize]
@@ -44,51 +37,28 @@ namespace TennisScoreBoard.Test
             m_match = m_matchService.StartMatch(m_p1.Object, m_p2.Object);
         }
 
-        [ClassCleanup]
-        public static void Cleanup()
-        {
-        }
-
         [TestMethod]
         public void StartMatchTest()
         {
-            // var p1 = new Mock<TennisPlayer>();
-            // var p2 = new Mock<TennisPlayer>();
-            // m_match = m_matchService.StartMatch(m_p1.Object, p2.Object);
-            Assert.AreNotEqual(null, m_match);
+           Assert.AreNotEqual(null, m_match);
 
         }
 
         [TestMethod]
         public void StartMatchTest_CreateSingleTennisSet()
         {
-            // var p1 = new Mock<TennisPlayer>();
-            // var p2 = new Mock<TennisPlayer>();
-            //
-            // var match = m_matchService.StartMatch(p1.Object, p2.Object);
-
             Assert.AreEqual(1, m_match.Sets.Count);
         }
 
         [TestMethod]
         public void StartMatchTest_CreateSingleTennisGame()
         {
-            // var p1 = new Mock<TennisPlayer>();
-            // var p2 = new Mock<TennisPlayer>();
-            //
-            // var match = m_matchService.StartMatch(p1.Object, p2.Object);
-
             Assert.AreEqual(1, m_match.Sets.Last().Games.Count);
         }
 
         [TestMethod]
         public void UpdateGameResultTest_OneScoreMatchNotOver()
         {
-            // var p1 = new Mock<TennisPlayer>();
-            // var p2 = new Mock<TennisPlayer>();
-            //
-            // var match = m_matchService.StartMatch(p1.Object, p2.Object);
-
             var isMatchOver = m_matchService.UpdateGameResult(m_match, PLAYER.SECOND);
 
             Assert.AreEqual(false, isMatchOver);
@@ -114,11 +84,6 @@ namespace TennisScoreBoard.Test
         [TestMethod]
         public void UpdateGameResultTest_120ScoresBySinglePlayerMatchIsOver()
         {
-            // var p1 = new Mock<TennisPlayer>();
-            // var p2 = new Mock<TennisPlayer>();
-            //
-            // var match = m_matchService.StartMatch(p1.Object, p2.Object);
-
             var isMatchOver = false;
 
             var totalServes = Constants.NUMBER_OF_SCORES_TO_WIN_GAME *
@@ -137,11 +102,6 @@ namespace TennisScoreBoard.Test
         [TestMethod]
         public void UpdateGameResultTest_BothPlayersWinsSets_SecondPlayerWinsMatch_MatchIsOver()
         {
-            // var p1 = new Mock<TennisPlayer>();
-            // var p2 = new Mock<TennisPlayer>();
-            //
-            // var match = m_matchService.StartMatch(p1.Object, p2.Object);
-
             var isMatchOver = false;
 
             var numberOfSets = 2;
@@ -167,11 +127,6 @@ namespace TennisScoreBoard.Test
         [TestMethod]
         public void UpdateGameResultTest_IsMatchOver_bothPlayerScoresPoints()
         {
-            // var p1 = new Mock<TennisPlayer>();
-            // var p2 = new Mock<TennisPlayer>();
-            //
-            // var match = m_matchService.StartMatch(p1.Object, p2.Object);
-
             var isMatchOver = false;
 
             for (var i = 0; i < Constants.NUMBER_OF_SCORES_TO_WIN_GAME - 2; i++)
@@ -190,12 +145,6 @@ namespace TennisScoreBoard.Test
         [TestMethod]
         public void UpdateGameResultTest_IsGameOver_bothPlayerScores_3_2_gameShouldNotOver()
         {
-            // var p1 = new Mock<TennisPlayer>();
-            // var p2 = new Mock<TennisPlayer>();
-            //
-            // var match = m_matchService.StartMatch(p1.Object, p2.Object);
-            // var gameId = match.Sets.Last().Games.Last().Id;
-
             var numberOfScores = 3;
 
             for (var i = 0; i < numberOfScores; i++)
@@ -217,11 +166,6 @@ namespace TennisScoreBoard.Test
         [TestMethod]
         public void UpdateGameResultTest_IsGameOver_bothPlayerScores_1_4_gameShouldBeOver()
         {
-            // var p1 = new Mock<TennisPlayer>();
-            // var p2 = new Mock<TennisPlayer>();
-            //
-            // var match = m_matchService.StartMatch(p1.Object, p2.Object);
-
             var numberOfScores = 1;
 
             for (var i = 0; i < numberOfScores; i++)
@@ -245,11 +189,6 @@ namespace TennisScoreBoard.Test
         [TestMethod]
         public void UpdateGameResultTest_IsSetOver_bothPlayerWinsGames_2_4_SetShouldNotBeOver()
         {
-            // var p1 = new Mock<TennisPlayer>();
-            // var p2 = new Mock<TennisPlayer>();
-            //
-            // var match = m_matchService.StartMatch(p1.Object, p2.Object);
-
             var numberOfGames = 2;
 
             for (var i = 0; i < numberOfGames * Constants.NUMBER_OF_SCORES_TO_WIN_GAME; i++)
@@ -273,14 +212,6 @@ namespace TennisScoreBoard.Test
         [TestMethod]
         public void UpdateGameResultTest_OnceSetIsOver_NewSingleGameIsCreated()
         {
-            // var p1 = new Mock<TennisPlayer>();
-            // var p2 = new Mock<TennisPlayer>();
-            //
-            // var match = m_matchService.StartMatch(p1.Object, p2.Object);
-
-            // var isSetOver = false;
-            
-
             for (var i = 0; i < Constants.NUMBER_OF_GAMES_TO_WIN_SET * Constants.NUMBER_OF_SCORES_TO_WIN_GAME; i++)
             {
                 m_matchService.UpdateGameResult(m_match, PLAYER.FIRST);
@@ -296,14 +227,6 @@ namespace TennisScoreBoard.Test
         [TestMethod]
         public void UpdateGameResultTest_OnceSetIsOver_NewSingleSetIsCreated()
         {
-            // var p1 = new Mock<TennisPlayer>();
-            // var p2 = new Mock<TennisPlayer>();
-            //
-            // var match = m_matchService.StartMatch(p1.Object, p2.Object);
-
-            // var isSetOver = false;
-            
-
             for (var i = 0; i < Constants.NUMBER_OF_GAMES_TO_WIN_SET * Constants.NUMBER_OF_SCORES_TO_WIN_GAME; i++)
             {
                 m_matchService.UpdateGameResult(m_match, PLAYER.FIRST);
@@ -317,11 +240,6 @@ namespace TennisScoreBoard.Test
         [TestMethod]
         public void UpdateGameResultTest_firsPlayerWinsSet()
         {
-            // var p1 = new Mock<TennisPlayer>();
-            // var p2 = new Mock<TennisPlayer>();
-            //
-            // var match = m_matchService.StartMatch(p1.Object, p2.Object);
-
             var scoresToWinSingleSet = Constants.NUMBER_OF_SCORES_TO_WIN_GAME *
                                        Constants.NUMBER_OF_GAMES_TO_WIN_SET;
 
@@ -339,11 +257,6 @@ namespace TennisScoreBoard.Test
         [TestMethod]
         public void UpdateGameResultTest_SecondPlayerWinsSet()
         {
-            // var p1 = new Mock<TennisPlayer>();
-            // var p2 = new Mock<TennisPlayer>();
-            //
-            // var match = m_matchService.StartMatch(p1.Object, p2.Object);
-
             var scoresToWinSingleSet = Constants.NUMBER_OF_SCORES_TO_WIN_GAME *
                                        Constants.NUMBER_OF_GAMES_TO_WIN_SET;
 
@@ -360,11 +273,6 @@ namespace TennisScoreBoard.Test
         [TestMethod]
         public void UpdateGameResultTest_SecondPlayerWinsSet_bothPlayersWinsGames()
         {
-            // var p1 = new Mock<TennisPlayer>();
-            // var p2 = new Mock<TennisPlayer>();
-            //
-            // var match = m_matchService.StartMatch(p1.Object, p2.Object);
-
             var scoresToWinSingleSet = Constants.NUMBER_OF_SCORES_TO_WIN_GAME *
                                        Constants.NUMBER_OF_GAMES_TO_WIN_SET;
 
@@ -386,11 +294,6 @@ namespace TennisScoreBoard.Test
         [TestMethod]
         public void UpdateGameResultTest_firsPlayerWinsSetAfterGetAndLooseAdvantage()
         {
-            // var p1 = new Mock<TennisPlayer>();
-            // var p2 = new Mock<TennisPlayer>();
-            //
-            // var match = m_matchService.StartMatch(p1.Object, p2.Object);
-
             var scoresToWinSingleSet = Constants.NUMBER_OF_SCORES_TO_WIN_GAME *
                                        Constants.NUMBER_OF_GAMES_TO_WIN_SET;
             // Both player score 40
@@ -435,11 +338,6 @@ namespace TennisScoreBoard.Test
         [TestMethod]
         public void UpdateGameResultTest_IsMatchOver_Player2Wins_6_4_MatchIsOver()
         {
-            // var p1 = new Mock<TennisPlayer>();
-            // var p2 = new Mock<TennisPlayer>();
-            //
-            // var match = m_matchService.StartMatch(p1.Object, p2.Object);
-
             var isMatchOver = false;
 
             var numberOfSets = 4;
@@ -465,11 +363,6 @@ namespace TennisScoreBoard.Test
         [TestMethod]
         public void UpdateGameResultTest_getCurrentScores_scoresByPlayerKeyIs_0()
         {
-            // var p1 = new Mock<TennisPlayer>();
-            // var p2 = new Mock<TennisPlayer>();
-            //
-            // var match = m_matchService.StartMatch(p1.Object, p2.Object);
-
             m_matchService.UpdateGameResult(m_match, PLAYER.FIRST);
 
             var P1Points = m_matchService.GetScoreBoardData(m_match).P1Points;
@@ -480,11 +373,6 @@ namespace TennisScoreBoard.Test
         [TestMethod]
         public void UpdateGameResultTest_getCurrentScores_TestPlayer1AdvantageCase()
         {
-            // var p1 = new Mock<TennisPlayer>();
-            // var p2 = new Mock<TennisPlayer>();
-            //
-            // var match = m_matchService.StartMatch(p1.Object, p2.Object);
-
             for (var i = 0; i < 3; i++)
             {
                 m_matchService.UpdateGameResult(m_match, PLAYER.SECOND);
@@ -502,11 +390,6 @@ namespace TennisScoreBoard.Test
         [TestMethod]
         public void UpdateGameResultTest_getCurrentScores_TestPlayer2AdvantageCase()
         {
-            // var p1 = new Mock<TennisPlayer>();
-            // var p2 = new Mock<TennisPlayer>();
-            //
-            // var match = m_matchService.StartMatch(p1.Object, p2.Object);
-
             for (var i = 0; i < 3; i++)
             {
                 m_matchService.UpdateGameResult(m_match, PLAYER.FIRST);
@@ -525,11 +408,6 @@ namespace TennisScoreBoard.Test
         [TestMethod]
         public void UpdateGameResultTest_getCurrentScores_TestPlayerDeuceCase()
         {
-            // var p1 = new Mock<TennisPlayer>();
-            // var p2 = new Mock<TennisPlayer>();
-            //
-            // var match = m_matchService.StartMatch(p1.Object, p2.Object);
-
             for (var i = 0; i < 3; i++)
             {
                 m_matchService.UpdateGameResult(m_match, PLAYER.SECOND);
@@ -583,12 +461,6 @@ namespace TennisScoreBoard.Test
         [TestMethod]
         public void GetScoreBoardDataTest_ValidMatch()
         {
-
-            // var p1 = new Mock<TennisPlayer>();
-            // var p2 = new Mock<TennisPlayer>();
-            //
-            // var match = m_matchService.StartMatch(p1.Object, p2.Object);
-
             var numberOfSets = 4;
 
             var scoresToWinSingleSet = Constants.NUMBER_OF_SCORES_TO_WIN_GAME *
@@ -615,18 +487,13 @@ namespace TennisScoreBoard.Test
         public void GetScoreBoardDataTest_MatchIsNull()
         {
             var res = m_matchService.GetScoreBoardData(null);
-            if (res == null)
-            {
-                //
-            }
+          
             Assert.AreEqual(null, res);
         }
 
         [TestMethod]
         public void AddPlayerTest()
         {
-            // m_matchService.GetPlayers().Count;
-
             var res = m_matchService.AddPlayer("1", "2");
 
             Assert.AreEqual(true, res);

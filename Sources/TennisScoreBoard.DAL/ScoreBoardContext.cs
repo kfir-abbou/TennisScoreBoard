@@ -3,7 +3,7 @@ using TennisScoreBoard.EF.Model;
 
 namespace TennisScoreBoard.EF
 {
-    public sealed class ScoreBoardContext : DbContext // ,IScoreBoardContext
+    public sealed class ScoreBoardContext : DbContext
     {
 
         public ScoreBoardContext()
@@ -51,14 +51,5 @@ namespace TennisScoreBoard.EF
             });
         }
     }
-    //
-    // public interface IScoreBoardContext
-    // {
-    //     DbSet<TennisPlayer> Players { get; }
-    //     DbSet<Game> Game { get; }
-    //     DbSet<GameScores> GameScores { get; }
-    //     DbSet<TennisSet> TennisSet { get; }
-    //     DbSet<TennisMatch> TennisMatch { get; }
-    //     void SaveData();
-    // }
+    
 }

@@ -14,15 +14,12 @@ namespace TennisScoreBoard.ScoreManager.Implementation
 {
     public class MatchService : IMatchService
     {
-        // private readonly IScoreBoardContext m_context;
         private static readonly ILog s_log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private IRepositoryManager m_repositoryManager;
 
-        // public MatchService(IScoreBoardContext context)
         public MatchService(IRepositoryManager repositoryManager)
         {
             s_log.DebugFormat($"[MatchService]");
-            // m_context = context;
             m_repositoryManager = repositoryManager;
         }
 
@@ -282,7 +279,6 @@ namespace TennisScoreBoard.ScoreManager.Implementation
             var winner = p1Wins > p2Wins ?
                 match.FirstPlayer :
                 match.SecondPlayer;
-            // game.SetGameWinner(winner);
             game.Winner = winner;
         }
 

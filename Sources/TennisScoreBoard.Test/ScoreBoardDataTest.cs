@@ -21,17 +21,10 @@ namespace TennisScoreBoard.Test
 
         public ScoreBoardDataTest()
         {
-            // var serializer =  new ConfigLoader();
-            // var config = serializer.LoadScoreboardConfig(Constants.CONFIG_FILE);
-            // var optionsBuilder = new DbContextOptionsBuilder<ScoreBoardContext>();
-            // optionsBuilder.UseSqlServer(@$"Server={config.ConnectionString};Database=TennisScoreDb_ForTest;Trusted_Connection=True;");
-            // optionsBuilder.UseSqlite("Data Source=sqlitedemo.db");
-
             var context = new ScoreBoardContext();
             m_repoMgr = new RepositoryManager(context);
             m_matchService = new MatchService(m_repoMgr);
-
-
+            
             m_matchService = new MatchService(m_repoMgr);
         }
         
@@ -50,7 +43,7 @@ namespace TennisScoreBoard.Test
 
             var numberOfGames = 3;
             
-            for (int i = 0; i < numberOfGames * Constants.NUMBER_OF_SCORES_TO_WIN_GAME; i++)
+            for (var i = 0; i < numberOfGames * Constants.NUMBER_OF_SCORES_TO_WIN_GAME; i++)
             {
                 m_matchService.UpdateGameResult(match, PLAYER.FIRST);
             }
@@ -66,7 +59,7 @@ namespace TennisScoreBoard.Test
 
             var numberOfGames = 3;
 
-            for (int i = 0; i < numberOfGames * Constants.NUMBER_OF_SCORES_TO_WIN_GAME; i++)
+            for (var i = 0; i < numberOfGames * Constants.NUMBER_OF_SCORES_TO_WIN_GAME; i++)
             {
                 m_matchService.UpdateGameResult(match, PLAYER.SECOND);
             }
@@ -120,17 +113,14 @@ namespace TennisScoreBoard.Test
         [TestMethod]
         public void UpdateGameResultTest_120ScoresBySinglePlayerMatchIsOver()
         {
-            var p1 = new Mock<TennisPlayer>();
-            var p2 = new Mock<TennisPlayer>();
-
-            var match = m_matchService.StartMatch(p1.Object, p2.Object);
+            var match = m_matchService.StartMatch(m_p1.Object, m_p2.Object);
 
             var totalServes = Constants.NUMBER_OF_SCORES_TO_WIN_GAME *
                               Constants.NUMBER_OF_GAMES_TO_WIN_SET *
                               Constants.NUMBER_OF_SETS_TO_WIN_MATCH;
 
 
-            for (int i = 0; i < totalServes; i++)
+            for (var i = 0; i < totalServes; i++)
             {
                 m_matchService.UpdateGameResult(match, PLAYER.SECOND);
             }
